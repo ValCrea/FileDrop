@@ -38,8 +38,7 @@ function closePopup() {
 }
 
 const onPaste = (e: any) => {
-  console.log(e.clipboardData);
-  console.log(e.clipboardData.getData("Text"));
+  props.fileStore.addFiles([...e.clipboardData.files]);
 };
 </script>
 
