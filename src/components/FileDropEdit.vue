@@ -14,7 +14,7 @@ const emits = defineEmits<{
 
 watch(
   () => props.autoUpdate,
-  (newValue, oldValue) => {
+  (newValue, _) => {
     if (newValue) attemptRename();
   }
 );
@@ -25,11 +25,15 @@ let extension = computed(() => getFileExtension(props.name));
 const spanInput = ref();
 
 function attemptRename() {
+  if (!spanInput.value) return;
+
   const rename = spanInput.value.innerHTML;
 
   if (rename !== name)
     emits("rename", props.name, `${rename}${extension.value}`);
 }
+
+const edit = ref(false);
 </script>
 
 <template>
@@ -37,6 +41,7 @@ function attemptRename() {
     <div class="file-edit__align">
       <p class="file-edit__gray"><font-awesome-icon icon="file-image" /></p>
       <span
+        v-if="edit"
         :ref="
           (el) => {
             spanInput = el;
@@ -46,20 +51,38 @@ function attemptRename() {
         contenteditable
         >{{ name }}</span
       >
-      <p v-if="extension" class="file-edit__gray">{{ extension }}</p>
+      <p v-if="edit && extension" class="file-edit__gray">{{ extension }}</p>
+
+      <p v-if="!edit" class="file-edit__gray">{{ props.name }}</p>
     </div>
 
     <div class="file-edit__align">
-      <button @click="attemptRename" class="file-edit__green my-btn-empty">
-        <font-awesome-icon icon="check" />
-      </button>
-      <div class="file-edit__split"></div>
-      <button
-        @click="emits('delete', props.name)"
-        class="file-edit__red my-btn-empty"
-      >
-        <font-awesome-icon icon="times" />
-      </button>
+      <template v-if="!edit">
+        <button @click="edit = true" class="file-edit__blue my-btn-empty">
+          <font-awesome-icon icon="pencil-square" />
+        </button>
+
+        <div class="file-edit__split"></div>
+
+        <button
+          @click="emits('delete', props.name)"
+          class="file-edit__red my-btn-empty"
+        >
+          <font-awesome-icon icon="trash" />
+        </button>
+      </template>
+
+      <template v-else>
+        <button @click="attemptRename" class="file-edit__green my-btn-empty">
+          <font-awesome-icon icon="check" />
+        </button>
+
+        <div class="file-edit__split"></div>
+
+        <button @click="edit = false" class="file-edit__red my-btn-empty">
+          <font-awesome-icon icon="times" />
+        </button>
+      </template>
     </div>
   </span>
 </template>
@@ -117,6 +140,9 @@ function attemptRename() {
 
   &__red {
     color: #e45b5b;
+  }
+  &__blue {
+    color: #5198db;
   }
 }
 </style>

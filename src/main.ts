@@ -7,6 +7,8 @@ import {
   faCheck,
   faUpload,
   faFileImage,
+  faTrash,
+  faPencilSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -15,7 +17,7 @@ import App from "./App.vue";
 
 import "./assets/main.css";
 
-library.add(faTimes, faCheck, faUpload, faFileImage);
+library.add(faTimes, faCheck, faUpload, faFileImage, faTrash, faPencilSquare);
 
 const app = createApp(App);
 

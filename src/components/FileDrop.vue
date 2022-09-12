@@ -23,8 +23,12 @@ function closePopup() {
 
 <template>
   <section class="visible">
-    <p class="visible__text">No data available</p>
-    <button @click="popupVisible = !popupVisible" class="my-btn my-btn--blue">
+    <p v-if="files.length == 0" class="visible__text">No data available</p>
+    <p v-else v-for="file in files" class="visible__text">{{ file.name }}</p>
+    <button
+      @click="popupVisible = !popupVisible"
+      class="visible__button my-btn my-btn--blue"
+    >
       UPLOAD FILES
     </button>
   </section>
@@ -83,8 +87,12 @@ function closePopup() {
   background-color: #efefef;
 
   &__text {
-    padding: 0.5rem;
-    padding-bottom: 1rem;
+    padding-top: 0.5rem;
+    padding-inline: 0.2rem;
+  }
+
+  &__button {
+    margin-top: 1rem;
   }
 }
 
