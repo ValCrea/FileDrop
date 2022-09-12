@@ -143,6 +143,7 @@ const edit = ref(false);
   &__limit {
     max-width: 30vw;
     text-overflow: ellipsis;
+    white-space: nowrap;
     overflow-x: hidden;
   }
 
