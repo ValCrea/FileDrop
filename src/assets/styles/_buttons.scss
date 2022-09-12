@@ -1,0 +1,25 @@
+.my-btn {
+  padding: 0.35rem 0.5rem;
+
+  border: none;
+  border-radius: 0.25rem;
+
+  color: white;
+
+  font-size: 0.8rem;
+
+  cursor: pointer;
+
+  &--blue {
+    background-color: #5198db;
+  }
+  &--red {
+    background-color: #f63939;
+  }
+  &-empty {
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    font-size: 1.15rem;
+  }
+}
