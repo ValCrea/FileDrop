@@ -38,6 +38,14 @@ function attemptRename() {
 }
 
 const edit = ref(false);
+
+function beginEdit() {
+  edit.value = true;
+
+  setTimeout(() => {
+    if (spanInput.value) spanInput.value.focus();
+  });
+}
 </script>
 
 <template>
@@ -71,7 +79,7 @@ const edit = ref(false);
 
     <div class="file-edit__align">
       <template v-if="!edit">
-        <button @click="edit = true" class="file-edit__blue my-btn-empty mr-3">
+        <button @click="beginEdit" class="file-edit__blue my-btn-empty mr-3">
           <font-awesome-icon icon="pencil-square" />
         </button>
 
