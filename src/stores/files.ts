@@ -6,7 +6,7 @@ export const useFileStore = defineStore("files", () => {
   const files: Ref<File[]> = ref([]);
 
   function addFiles(newFiles: File[]) {
-    const noDupFiles = removeDuplicates(files.value, newFiles);
+    let noDupFiles = removeDuplicates(files.value, newFiles);
     files.value = [...files.value, ...noDupFiles];
   }
 

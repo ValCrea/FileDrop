@@ -35,3 +35,11 @@ export const getFileExtension = (file: string): string => {
 
   return file.substring(split, file.length);
 };
+
+const imageExtensions = [".png", ".jpg", ".svg"];
+
+export const getFileIcon = (file: string): string => {
+  return imageExtensions.includes(getFileExtension(file))
+    ? "file-image"
+    : "file";
+};

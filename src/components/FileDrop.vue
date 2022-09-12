@@ -3,11 +3,28 @@ import { ref, type Ref } from "vue";
 import FileDropBox from "@/components/FileDropBox.vue";
 import FileDropEdit from "@/components/FileDropEdit.vue";
 
-import { storeToRefs } from "pinia";
-import { useFileStore } from "@/stores/files";
+import { getFileExtension } from "@/utils/file-utils";
 
-const fileStore = useFileStore();
-const { files } = storeToRefs(fileStore);
+import { storeToRefs, type Store } from "pinia";
+
+const props = defineProps<{
+  fileStore: any;
+  allowedExtensions?: string[];
+}>();
+
+const { files } = storeToRefs(props.fileStore);
+
+function checkFiles(newFiles: File[]) {
+  if (props.allowedExtensions) {
+    newFiles = newFiles.filter((file) =>
+      props.allowedExtensions?.includes(
+        getFileExtension(file.name).substring(1)
+      )
+    );
+  }
+
+  props.fileStore.addFiles(newFiles);
+}
 
 const popupVisible = ref(false);
 const autoUpdateNames = ref(false);
@@ -47,7 +64,7 @@ function closePopup() {
         </header>
 
         <section class="popup__drop">
-          <FileDropBox @new-files="fileStore.addFiles" />
+          <FileDropBox @new-files="checkFiles" />
         </section>
 
         <section class="popup__files">
@@ -55,8 +72,8 @@ function closePopup() {
             <FileDropEdit
               :name="file.name"
               :auto-update="autoUpdateNames"
-              @delete="fileStore.deleteFile"
-              @rename="fileStore.renameFile"
+              @delete="props.fileStore.deleteFile"
+              @rename="props.fileStore.renameFile"
             />
           </template>
         </section>

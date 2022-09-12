@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import FileDrop from "./components/FileDrop.vue";
+import { useFileStore } from "@/stores/files";
+
+const fileStore = useFileStore();
 </script>
 
 <template>
   <div class="container">
-    <FileDrop />
+    <FileDrop
+      :fileStore="fileStore"
+      :allowedExtensions="['json', 'svg', 'html']"
+    />
   </div>
 </template>
 

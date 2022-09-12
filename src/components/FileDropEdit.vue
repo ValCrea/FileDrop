@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
-import { getFileName, getFileExtension } from "@/utils/file-utils";
+import { getFileIcon, getFileName, getFileExtension } from "@/utils/file-utils";
 
 const props = defineProps<{
   name: string;
@@ -39,7 +39,9 @@ const edit = ref(false);
 <template>
   <span class="file-edit">
     <div class="file-edit__align">
-      <p class="file-edit__gray"><font-awesome-icon icon="file-image" /></p>
+      <p class="file-edit__gray">
+        <font-awesome-icon :icon="getFileIcon(props.name)" />
+      </p>
       <span
         v-if="edit"
         :ref="

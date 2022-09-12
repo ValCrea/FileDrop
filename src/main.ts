@@ -6,6 +6,7 @@ import {
   faTimes,
   faCheck,
   faUpload,
+  faFile,
   faFileImage,
   faTrash,
   faPencilSquare,
@@ -17,7 +18,15 @@ import App from "./App.vue";
 
 import "./assets/main.css";
 
-library.add(faTimes, faCheck, faUpload, faFileImage, faTrash, faPencilSquare);
+library.add(
+  faTimes,
+  faCheck,
+  faUpload,
+  faFile,
+  faFileImage,
+  faTrash,
+  faPencilSquare
+);
 
 const app = createApp(App);
 
