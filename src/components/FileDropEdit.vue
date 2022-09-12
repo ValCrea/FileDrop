@@ -117,7 +117,6 @@ const edit = ref(false);
     display: flex;
     align-items: center;
     flex-direction: row;
-    //gap: 0.3rem;
   }
 
   &__input {
@@ -137,6 +136,7 @@ const edit = ref(false);
   }
 
   &__split {
+    height: 100%;
     border: solid 0.1rem #bbbbbb;
   }
 
