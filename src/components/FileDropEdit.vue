@@ -27,7 +27,10 @@ const spanInput = ref();
 function attemptRename() {
   if (!spanInput.value) return;
 
-  const rename = spanInput.value.innerHTML;
+  const rename = spanInput.value.innerHTML
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .trim();
   if (rename === "") return;
 
   if (rename !== name)
