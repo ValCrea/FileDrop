@@ -57,6 +57,10 @@ onUnmounted(() => {
     padding: 2rem;
   }
 
+  @media screen and (max-height: 800px) {
+    padding: 1rem;
+  }
+
   display: flex;
   flex-direction: column;
   align-items: center;

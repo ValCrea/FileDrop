@@ -134,6 +134,8 @@ const onPaste = (e: any) => {
 
     width: 90%;
     max-width: 800px;
+    max-height: 99%;
+
     padding: 0.5rem;
 
     background-color: white;
