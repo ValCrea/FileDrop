@@ -5,7 +5,7 @@ import FileDropEdit from "@/components/FileDropEdit.vue";
 
 import { getFileExtension } from "@/utils/file-utils";
 
-import { storeToRefs, type Store } from "pinia";
+import { storeToRefs } from "pinia";
 
 const props = defineProps<{
   fileStore: any;
@@ -36,6 +36,11 @@ function closePopup() {
     popupVisible.value = !popupVisible.value;
   });
 }
+
+const onPaste = (e: any) => {
+  console.log(e.clipboardData);
+  console.log(e.clipboardData.getData("Text"));
+};
 </script>
 
 <template>
@@ -52,7 +57,7 @@ function closePopup() {
 
   <Transition>
     <div v-if="popupVisible" class="popup">
-      <section class="popup__container">
+      <section @paste="onPaste" class="popup__container">
         <header class="popup__header">
           <p class="popup__title">Add new files</p>
           <button

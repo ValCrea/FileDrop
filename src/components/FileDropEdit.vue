@@ -39,28 +39,34 @@ const edit = ref(false);
 <template>
   <span class="file-edit">
     <div class="file-edit__align">
-      <p class="file-edit__gray">
+      <p class="file-edit__gray ml-3 mr-3">
         <font-awesome-icon :icon="getFileIcon(props.name)" />
       </p>
-      <span
-        v-if="edit"
-        :ref="
-          (el) => {
-            spanInput = el;
-          }
-        "
-        class="file-edit__input"
-        contenteditable
-        >{{ name }}</span
-      >
-      <p v-if="edit && extension" class="file-edit__gray">{{ extension }}</p>
 
-      <p v-if="!edit" class="file-edit__gray">{{ props.name }}</p>
+      <template v-if="edit">
+        <span
+          :ref="
+            (el) => {
+              spanInput = el;
+            }
+          "
+          class="file-edit__input file-edit__limit ml-3"
+          contenteditable
+          >{{ name }}</span
+        >
+        <p v-if="extension" class="file-edit__gray">{{ extension }}</p>
+      </template>
+      <template v-else>
+        <span class="file-edit__gray file-edit__limit ml-3">{{ name }}</span>
+        <p v-if="extension" class="file-edit__gray file-edit__gray">
+          {{ extension }}
+        </p>
+      </template>
     </div>
 
     <div class="file-edit__align">
       <template v-if="!edit">
-        <button @click="edit = true" class="file-edit__blue my-btn-empty">
+        <button @click="edit = true" class="file-edit__blue my-btn-empty mr-3">
           <font-awesome-icon icon="pencil-square" />
         </button>
 
@@ -68,20 +74,23 @@ const edit = ref(false);
 
         <button
           @click="emits('delete', props.name)"
-          class="file-edit__red my-btn-empty"
+          class="file-edit__red my-btn-empty ml-3"
         >
           <font-awesome-icon icon="trash" />
         </button>
       </template>
 
       <template v-else>
-        <button @click="attemptRename" class="file-edit__green my-btn-empty">
+        <button
+          @click="attemptRename"
+          class="file-edit__green my-btn-empty mr-3"
+        >
           <font-awesome-icon icon="check" />
         </button>
 
         <div class="file-edit__split"></div>
 
-        <button @click="edit = false" class="file-edit__red my-btn-empty">
+        <button @click="edit = false" class="file-edit__red my-btn-empty ml-3">
           <font-awesome-icon icon="times" />
         </button>
       </template>
@@ -108,7 +117,7 @@ const edit = ref(false);
     display: flex;
     align-items: center;
     flex-direction: row;
-    gap: 0.3rem;
+    //gap: 0.3rem;
   }
 
   &__input {
@@ -128,11 +137,17 @@ const edit = ref(false);
   }
 
   &__split {
-    height: 100%;
     border: solid 0.1rem #bbbbbb;
   }
 
+  &__limit {
+    max-width: 30vw;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+  }
+
   &__gray {
+    overflow-x: hidden;
     color: #999999;
   }
 
@@ -146,5 +161,12 @@ const edit = ref(false);
   &__blue {
     color: #5198db;
   }
+}
+
+.ml-3 {
+  margin-left: 0.15rem;
+}
+.mr-3 {
+  margin-right: 0.15rem;
 }
 </style>
