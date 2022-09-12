@@ -116,7 +116,7 @@ function attemptRename() {
   }
 
   &__red {
-    color: #f63939;
+    color: #e45b5b;
   }
 }
 </style>

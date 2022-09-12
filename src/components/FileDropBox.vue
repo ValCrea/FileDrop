@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, defineEmits } from "vue";
+import { onMounted, onUnmounted } from "vue";
 
 const emits = defineEmits<{
   (eventName: "newFiles", files: File[]): void;
@@ -61,7 +61,7 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
 
-  background-color: #efefef;
+  background-color: #f8f8f8;
 
   border-radius: 0.25rem;
 }
