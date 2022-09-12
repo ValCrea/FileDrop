@@ -1,13 +1,3 @@
-/*export const findDuplicateFiles = (
-  original: readonly File[],
-  findDupes: readonly File[]
-): File[] => {
-  return findDupes.filter(
-    (dupFile) =>
-      original.filter((orgFile) => dupFile.name === orgFile.name).length > 0
-  );
-};*/
-
 export const isDuplicate = (file: File, files: File[]) => {
   return files.filter((checkFile) => checkFile.name === file.name).length > 0;
 };

@@ -33,7 +33,7 @@ function closePopup() {
     <div v-if="popupVisible" class="popup">
       <section class="popup__container">
         <header class="popup__header">
-          <p>Add new files</p>
+          <p class="popup__title">Add new files</p>
           <button
             @click="popupVisible = !popupVisible"
             class="popup__close my-btn-empty"
@@ -120,6 +120,11 @@ function closePopup() {
     justify-content: space-between;
 
     border-bottom: 0.15rem solid #dddddd;
+  }
+
+  &__title {
+    color: #575757;
+    font-weight: 550;
   }
 
   &__close {
