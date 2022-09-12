@@ -28,6 +28,7 @@ function attemptRename() {
   if (!spanInput.value) return;
 
   const rename = spanInput.value.innerHTML;
+  if (rename === "") return;
 
   if (rename !== name)
     emits("rename", props.name, `${rename}${extension.value}`);
@@ -37,7 +38,7 @@ const edit = ref(false);
 </script>
 
 <template>
-  <span class="file-edit">
+  <div class="file-edit">
     <div class="file-edit__align">
       <p class="file-edit__gray ml-3 mr-3">
         <font-awesome-icon :icon="getFileIcon(props.name)" />
@@ -52,12 +53,13 @@ const edit = ref(false);
           "
           class="file-edit__input file-edit__limit ml-3"
           contenteditable
-          >{{ name }}</span
         >
+          {{ name }}
+        </span>
         <p v-if="extension" class="file-edit__gray">{{ extension }}</p>
       </template>
-      <template v-else>
-        <span class="file-edit__gray file-edit__limit ml-3">{{ name }}</span>
+      <template v-if="!edit">
+        <p class="file-edit__gray file-edit__limit ml-3">{{ name }}</p>
         <p v-if="extension" class="file-edit__gray file-edit__gray">
           {{ extension }}
         </p>
@@ -95,7 +97,7 @@ const edit = ref(false);
         </button>
       </template>
     </div>
-  </span>
+  </div>
 </template>
 
 <style scoped lang="scss">
