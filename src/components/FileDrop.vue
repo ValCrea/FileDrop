@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type Ref } from "vue";
+import { ref, type Ref, nextTick } from "vue";
 import FileDropBox from "@/components/FileDropBox.vue";
 import FileDropEdit from "@/components/FileDropEdit.vue";
 
@@ -31,21 +31,24 @@ const autoUpdateNames = ref(false);
 
 function closePopup() {
   autoUpdateNames.value = true;
-  setTimeout(() => {
+  nextTick(() => {
     autoUpdateNames.value = false;
     popupVisible.value = !popupVisible.value;
   });
 }
 
-const onPaste = (e: any) => {
-  props.fileStore.addFiles([...e.clipboardData.files]);
+const onPaste = (event: ClipboardEvent) => {
+  if (event!.clipboardData)
+    props.fileStore.addFiles([...event.clipboardData.files]);
 };
 </script>
 
 <template>
   <section class="visible">
     <p v-if="files.length == 0" class="visible__text">No data available</p>
-    <p v-else v-for="file in files" class="visible__text">{{ file.name }}</p>
+    <p v-for="file in files" class="visible__text">
+      {{ file.name }}
+    </p>
     <button
       @click="popupVisible = !popupVisible"
       class="visible__button my-btn my-btn--blue"
@@ -110,6 +113,9 @@ const onPaste = (e: any) => {
   &__text {
     padding-top: 0.5rem;
     padding-inline: 0.2rem;
+
+    text-overflow: clip;
+    overflow-x: hidden;
   }
 
   &__button {

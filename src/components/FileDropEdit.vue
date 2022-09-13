@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, nextTick } from "vue";
 import { getFileIcon, getFileName, getFileExtension } from "@/utils/file-utils";
 
 const props = defineProps<{
@@ -42,7 +42,7 @@ const edit = ref(false);
 function beginEdit() {
   edit.value = true;
 
-  setTimeout(() => {
+  nextTick(() => {
     if (spanInput.value) spanInput.value.focus();
   });
 }

@@ -10,10 +10,11 @@ const onDrop = (e: DragEvent) => {
   uploadFiles(e.dataTransfer.files);
 };
 
-const onSelect = (e: any) => {
-  if (!e.target) return;
+const onSelect = (event: Event) => {
+  if (!event!.target) return;
 
-  if (e.target.files) uploadFiles(e.target.files);
+  const files = (event.target as HTMLInputElement).files;
+  if (files) uploadFiles(files);
 };
 
 const uploadFiles = (files: FileList) => {
