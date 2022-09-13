@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { ref, type Ref, nextTick } from "vue";
+import { ref, nextTick } from "vue";
 import FileDropBox from "@/components/FileDropBox.vue";
 import FileDropEdit from "@/components/FileDropEdit.vue";
 
-import { getFileExtension } from "@/utils/file-utils";
+import {
+  isDuplicate,
+  removeDuplicates,
+  getFileExtension,
+} from "@/utils/file-utils";
 
-import { storeToRefs } from "pinia";
-
+const emit = defineEmits(["update:files"]);
 const props = defineProps<{
-  fileStore: any;
+  files: File[];
   allowedExtensions?: string[];
 }>();
-
-const { files } = storeToRefs(props.fileStore);
 
 function checkFiles(newFiles: File[]) {
   if (props.allowedExtensions) {
@@ -22,8 +23,41 @@ function checkFiles(newFiles: File[]) {
       )
     );
   }
+  addFiles(newFiles);
+}
 
-  props.fileStore.addFiles(newFiles);
+function addFiles(newFiles: File[]) {
+  console.log(props.files);
+  let noDupFiles = removeDuplicates(props.files, newFiles);
+  emit("update:files", [...props.files, ...noDupFiles]);
+}
+
+function deleteFile(fileName: string): number {
+  const fileIndex = props.files.indexOf(
+    props.files.filter((file) => file.name === fileName)[0]
+  );
+
+  let filesTemp = props.files;
+  if (fileIndex >= 0) filesTemp.splice(fileIndex, 1);
+  emit("update:files", filesTemp);
+  return fileIndex;
+}
+
+function renameFile(originalName: string, newName: string) {
+  if (originalName === newName) return;
+
+  const oldFile = props.files.filter((file) => file.name === originalName);
+  if (oldFile.length == 0) return;
+
+  const newFile = new File([oldFile[0]], newName);
+  if (isDuplicate(newFile, props.files)) return;
+
+  const fileIndex = deleteFile(oldFile[0].name);
+  if (fileIndex < 0) return;
+
+  let filesTemp = props.files;
+  filesTemp.splice(fileIndex, 0, newFile);
+  emit("update:files", filesTemp);
 }
 
 const popupVisible = ref(false);
@@ -38,8 +72,7 @@ function closePopup() {
 }
 
 const onPaste = (event: ClipboardEvent) => {
-  if (event!.clipboardData)
-    props.fileStore.addFiles([...event.clipboardData.files]);
+  if (event!.clipboardData) addFiles([...event.clipboardData.files]);
 };
 </script>
 
@@ -79,8 +112,8 @@ const onPaste = (event: ClipboardEvent) => {
             <FileDropEdit
               :name="file.name"
               :auto-update="autoUpdateNames"
-              @delete="props.fileStore.deleteFile"
-              @rename="props.fileStore.renameFile"
+              @delete="deleteFile"
+              @rename="renameFile"
             />
           </template>
         </section>

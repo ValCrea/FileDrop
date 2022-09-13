@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import FileDrop from "./components/FileDrop.vue";
+import { ref } from "vue";
 import { useFileStore } from "@/stores/files";
 
+import { storeToRefs } from "pinia";
+
 const fileStore = useFileStore();
+const { files } = storeToRefs(fileStore);
 </script>
 
 <template>
   <div class="container">
     <FileDrop
-      :fileStore="fileStore"
+      v-model:files="files"
       :allowedExtensions="['json', 'svg', 'html']"
     />
   </div>
